@@ -13,9 +13,6 @@ import retrofit2.http.GET;
 
 public class HttpRequest {
 
-    //private static final String TOKEN_ENDPOINT = "https://3t79gskt49.execute-api.us-east-1.amazonaws.com/client_token";
-    //private static final String CHECKOUT_ENDPOINT = "https://3t79gskt49.execute-api.us-east-1.amazonaws.com/checkout";
-
     private static final String TOKEN_ENDPOINT = "http://10.0.2.2:8080/rs/";
     private static final String CHECKOUT_ENDPOINT = "http://10.0.2.2:8080/rs/";
 
