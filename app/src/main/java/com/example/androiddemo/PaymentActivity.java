@@ -126,9 +126,10 @@ public class PaymentActivity extends AppCompatActivity implements PayPalListener
                    public void onResponse(Call<PaymentReceipt> call, Response<PaymentReceipt> response) {
                         assert response.body() != null;
                         boolean status = response.body().getStatus();
+                        String transactionID = response.body().getTransactionID();
 
                         if(status) {
-                            Toast.makeText(PaymentActivity.this, "Payment has been successful", Toast.LENGTH_LONG).show();
+                            Toast.makeText(PaymentActivity.this, "Payment has been successful and the Transaction ID is "+ transactionID, Toast.LENGTH_LONG).show();
                         } else {
                             Toast.makeText(PaymentActivity.this, "Payment Failed", Toast.LENGTH_LONG).show();
                         }
