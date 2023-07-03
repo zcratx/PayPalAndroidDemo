@@ -51,6 +51,12 @@ dependencies {
     implementation 'com.braintreepayments.api:data-collector:4.32.0'
     // to offer PayPal
     implementation 'com.braintreepayments.api:paypal:4.32.0'
+    // to offer Google Pay
+    implementation 'com.braintreepayments.api:google-pay:4.32.0'
+    // to offer Venmo
+    implementation 'com.braintreepayments.api:venmo:4.32.0'
+
+
 
 }
 
