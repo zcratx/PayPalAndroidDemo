@@ -16,6 +16,8 @@ public class HttpRequest {
     private static final String TOKEN_ENDPOINT = "http://10.0.2.2:8080/rs/";
     private static final String CHECKOUT_ENDPOINT = "http://10.0.2.2:8080/rs/";
 
+    private static final String CREDITCARD_CHECKOUT_ENDPOINT = "http://10.0.2.2:8080/rs/";
+
     private static final OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
 
     //@GET("client_token")
@@ -25,6 +27,10 @@ public class HttpRequest {
 
     public Api checkout() {
         return this.build(CHECKOUT_ENDPOINT).create(Api.class);
+    }
+
+    public Api creditCardCheckout()  {
+        return this.build(CREDITCARD_CHECKOUT_ENDPOINT).create(Api.class);
     }
 
     private Retrofit build(String endpoint) {

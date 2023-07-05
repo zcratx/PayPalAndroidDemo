@@ -14,10 +14,7 @@ package com.example.androiddemo;
         import com.braintreepayments.api.Card;
         import com.braintreepayments.api.CardClient;
         import com.braintreepayments.api.DataCollector;
-        import com.braintreepayments.api.PayPalAccountNonce;
-        import com.braintreepayments.api.PayPalCheckoutRequest;
-        import com.braintreepayments.api.PayPalClient;
-        import com.braintreepayments.api.PayPalListener;
+
         import com.google.gson.Gson;
         import com.google.gson.JsonParser;
 
@@ -52,13 +49,16 @@ public class CreditCardPaymentActivity extends AppCompatActivity {
     private CardClient cardClient;
     private DataCollector dataCollector;
 
+    private static final String AMOUNT = "5";
+    private static final String CURRENCY = "USD";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.credit_card_activity_payment);
 
         progressBar = findViewById(R.id.progressBar);
-        handleLoading(false);
+        handleLoading(true);
 
         // get all the information from the invoking activity which is MainActivity.java
         Intent intent = getIntent();
@@ -80,9 +80,66 @@ public class CreditCardPaymentActivity extends AppCompatActivity {
         cardClient = new CardClient(braintreeClient);
         cardClient.tokenize(card,(cardNonce,error)-> {
             //TODO: Print the nonce that comes from the server
-            Log.d(TAG, "The nonce created at CreditCardPaymentActivity is "+cardNonce);
+            if(error != null) {
+                Log.d(TAG, "The ERROR at CreditCardPaymentActivity is "+error.getMessage());
 
-            //TODO: Submit the nonce to the server for processing
+                Toast.makeText(CreditCardPaymentActivity.this, error.getMessage(), Toast.LENGTH_LONG).show();
+                //IMPORTANT: The activity finised here as we cannot tokenize the card
+                finish();
+            }
+
+            Log.d(TAG, "The nonce created at CreditCardPaymentActivity is "+cardNonce.getString());
+
+            // submitting the nonce to the server
+            dataCollector.collectDeviceData(this, (deviceData, deviceDataerror) -> {
+                if(deviceDataerror != null) {
+                    Log.e(TAG, deviceDataerror.getMessage());
+                } else {
+                    Random random = new Random();
+                    int number = random.nextInt();
+                    String orderId = String.valueOf(Math.abs(number)).substring(0,4);
+
+                    deviceData.replace('"','\"');
+
+                    assert cardNonce != null;
+                    RequestBody requestBody = new MultipartBody.Builder()
+                            .setType(MultipartBody.FORM)
+                            .addFormDataPart("nonce", cardNonce.getString())
+                            .addFormDataPart("deviceData", deviceData)
+                            .addFormDataPart("AMOUNT", AMOUNT)
+                            .addFormDataPart("orderId", orderId)
+                            .build();
+
+                    Call<PaymentReceipt> call = new HttpRequest().creditCardCheckout().creditCardPayment(requestBody);
+
+                    call.enqueue(new Callback<PaymentReceipt>() {
+                        @Override
+                        public void onResponse(Call<PaymentReceipt> call, Response<PaymentReceipt> response) {
+                            assert response.body() != null;
+                            boolean status = response.body().getStatus();
+                            String transactionID = response.body().getTransactionID();
+
+                            if(status) {
+                                Toast.makeText(CreditCardPaymentActivity.this, "Payment has been successful and the Transaction ID is "+ transactionID, Toast.LENGTH_LONG).show();
+                            } else {
+                                Toast.makeText(CreditCardPaymentActivity.this, "Payment Failed", Toast.LENGTH_LONG).show();
+                            }
+                            handleLoading(true);
+                            finish();
+                        }
+
+                        @Override
+                        public void onFailure(Call<PaymentReceipt> call, Throwable t) {
+                            Exception ex = new Exception(t);
+                            Toast.makeText(CreditCardPaymentActivity.this, ex.getMessage(), Toast.LENGTH_LONG).show();
+
+                            finish();
+                        }
+                    });
+                }
+            }); // this is where data collector will end
+
+
         });
 
 

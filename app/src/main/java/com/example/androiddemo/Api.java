@@ -21,4 +21,9 @@ public interface Api {
 
     @GET("client_token")
     Call<DerivedClientToken> getClientToken();
+
+    @POST("checkout_creditcard")
+    Call<PaymentReceipt> creditCardPayment(@Body RequestBody body);
+
+
 }
