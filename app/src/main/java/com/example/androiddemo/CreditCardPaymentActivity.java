@@ -72,8 +72,8 @@ public class CreditCardPaymentActivity extends AppCompatActivity {
         Card card = new Card();
         //TODO: Put the information below for this to work
         card.setNumber(cardNumber);
-        card.setCvv(expirationDate);
-        card.setExpirationDate(cvv);
+        card.setCvv(cvv);
+        card.setExpirationDate(expirationDate);
 
         braintreeClient = new BraintreeClient(this, new TokenProvider());
         dataCollector = new DataCollector(braintreeClient);
