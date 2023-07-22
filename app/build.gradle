@@ -46,15 +46,16 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.10.1'
 
     //to offer card payments
-    implementation 'com.braintreepayments.api:card:4.32.0'
+    implementation 'com.braintreepayments.api:card:4.36.0'
     //to collect device data
-    implementation 'com.braintreepayments.api:data-collector:4.32.0'
+    implementation 'com.braintreepayments.api:data-collector:4.36.0'
     // to offer PayPal
-    implementation 'com.braintreepayments.api:paypal:4.32.0'
+    implementation 'com.braintreepayments.api:paypal:4.36.0'
     // to offer Google Pay
-    implementation 'com.braintreepayments.api:google-pay:4.32.0'
+    implementation 'com.braintreepayments.api:google-pay:4.36.0'
     // to offer Venmo
-    implementation 'com.braintreepayments.api:venmo:4.32.0'
+    implementation 'com.braintreepayments.api:venmo:4.36.0'
+
 
 
 

@@ -9,9 +9,9 @@
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="116dp"
-        android:layout_marginBottom="136dp"
-        android:onClick="handleSubmit"
+        android:layout_marginEnd="220dp"
+        android:layout_marginBottom="300dp"
+        android:onClick="handlePayPalSubmit"
         android:text="Pay Using PayPal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -20,31 +20,52 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="16dp"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="-99dp">
 
         <EditText
             android:id="@+id/editTextCardNumber"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Card Number" />
+            android:hint="Card Number"
+            android:inputType="number"/>
 
         <EditText
             android:id="@+id/editTextExpirationDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Expiration Date" />
+            android:hint="Expiration Date mm/yy"
+            android:inputType="date"/>
 
         <EditText
             android:id="@+id/editTextCVV"
             android:layout_width="382dp"
             android:layout_height="57dp"
-            android:hint="CVV" />
+            android:hint="CVV"
+            android:inputType="number"/>
+
+        <EditText
+            android:id="@+id/editTextZip"
+            android:layout_width="382dp"
+            android:layout_height="57dp"
+            android:hint="Zipcode"
+            android:inputType="number"/>
 
         <Button
             android:id="@+id/submitButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Submit" />
+            android:text="Pay Using Credit Card" />
+
+        <Button
+            android:id="@+id/venmobutton"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="220dp"
+            android:layout_marginBottom="280dp"
+            android:onClick="handleVenmoSubmit"
+            android:text="Pay Using Venmo" />
 
     </LinearLayout>
 

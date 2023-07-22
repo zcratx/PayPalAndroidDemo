@@ -13,10 +13,19 @@ import retrofit2.http.GET;
 
 public class HttpRequest {
 
-    private static final String TOKEN_ENDPOINT = "http://10.0.2.2:8080/rs/";
-    private static final String CHECKOUT_ENDPOINT = "http://10.0.2.2:8080/rs/";
+//    private static final String TOKEN_ENDPOINT = "http://10.0.2.2:8080/rs/";
+//    private static final String CHECKOUT_ENDPOINT = "http://10.0.2.2:8080/rs/";
+//
+//    private static final String CREDITCARD_CHECKOUT_ENDPOINT = "http://10.0.2.2:8080/rs/";
+//
+//    private static final String VENMO_CHECKOUT_ENDPOINT = "http://10.0.2.2:8080/rs/";
 
-    private static final String CREDITCARD_CHECKOUT_ENDPOINT = "http://10.0.2.2:8080/rs/";
+    private static final String TOKEN_ENDPOINT = "https://zcratx-bt-java-7787bd095269.herokuapp.com/rs/";
+    private static final String CHECKOUT_ENDPOINT = "https://zcratx-bt-java-7787bd095269.herokuapp.com/rs/";
+
+    private static final String CREDITCARD_CHECKOUT_ENDPOINT = "https://zcratx-bt-java-7787bd095269.herokuapp.com/rs/";
+
+    private static final String VENMO_CHECKOUT_ENDPOINT = "https://zcratx-bt-java-7787bd095269.herokuapp.com/rs/";
 
     private static final OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
 
@@ -32,6 +41,11 @@ public class HttpRequest {
     public Api creditCardCheckout()  {
         return this.build(CREDITCARD_CHECKOUT_ENDPOINT).create(Api.class);
     }
+
+    public Api venmoCheckout() {
+        return this.build(VENMO_CHECKOUT_ENDPOINT).create(Api.class);
+    }
+
 
     private Retrofit build(String endpoint) {
 
