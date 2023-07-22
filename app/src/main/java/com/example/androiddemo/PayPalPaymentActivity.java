@@ -16,28 +16,21 @@ import com.braintreepayments.api.PayPalAccountNonce;
 import com.braintreepayments.api.PayPalCheckoutRequest;
 import com.braintreepayments.api.PayPalClient;
 import com.braintreepayments.api.PayPalListener;
-import com.google.gson.Gson;
-import com.google.gson.JsonParser;
 
-import org.json.JSONObject;
-
-import java.io.IOException;
 import java.util.Random;
 
-import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
-import okio.BufferedSink;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class PaymentActivity extends AppCompatActivity implements PayPalListener {
+public class PayPalPaymentActivity extends AppCompatActivity implements PayPalListener {
 
     private ProgressBar progressBar;
     private String payment_submitted;
 
-    private static final String TAG="PaymentActivity";
+    private static final String TAG="PayPalPaymentActivity";
     private static final String AMOUNT = "5";
     private static final String CURRENCY = "USD";
 
@@ -129,9 +122,9 @@ public class PaymentActivity extends AppCompatActivity implements PayPalListener
                         String transactionID = response.body().getTransactionID();
 
                         if(status) {
-                            Toast.makeText(PaymentActivity.this, "Payment has been successful and the Transaction ID is "+ transactionID, Toast.LENGTH_LONG).show();
+                            Toast.makeText(PayPalPaymentActivity.this, "Payment has been successful and the Transaction ID is "+ transactionID, Toast.LENGTH_LONG).show();
                         } else {
-                            Toast.makeText(PaymentActivity.this, "Payment Failed", Toast.LENGTH_LONG).show();
+                            Toast.makeText(PayPalPaymentActivity.this, "Payment Failed", Toast.LENGTH_LONG).show();
                         }
                         handleLoading(true);
                         finish();
@@ -140,7 +133,7 @@ public class PaymentActivity extends AppCompatActivity implements PayPalListener
                     @Override
                    public void onFailure(Call<PaymentReceipt> call, Throwable t) {
                         Exception ex = new Exception(t);
-                        Toast.makeText(PaymentActivity.this, ex.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(PayPalPaymentActivity.this, ex.getMessage(), Toast.LENGTH_LONG).show();
 
                         finish();
                     }
@@ -151,7 +144,7 @@ public class PaymentActivity extends AppCompatActivity implements PayPalListener
 
     @Override
     public void onPayPalFailure(@NonNull Exception error) {
-        Toast.makeText(PaymentActivity.this, error.getMessage(), Toast.LENGTH_LONG).show();
+        Toast.makeText(PayPalPaymentActivity.this, error.getMessage(), Toast.LENGTH_LONG).show();
         finish();
     }
 }

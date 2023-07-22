@@ -25,5 +25,8 @@ public interface Api {
     @POST("checkout_creditcard")
     Call<PaymentReceipt> creditCardPayment(@Body RequestBody body);
 
+    @POST("checkout_venmo")
+    Call<PaymentReceipt> venmoPayment(@Body RequestBody body);
+
 
 }

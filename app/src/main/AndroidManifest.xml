@@ -14,7 +14,7 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
 
-        <activity android:name=".PaymentActivity"
+        <activity android:name=".PayPalPaymentActivity"
                     android:exported="true">
             <meta-data android:name="android.app.lib_name"
                     android:value="" />
@@ -29,6 +29,34 @@
         </activity>
 
         <activity android:name=".CreditCardPaymentActivity"
+            android:exported="true">
+            <meta-data android:name="android.app.lib_name"
+                android:value="" />
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="${applicationId}.braintree" />
+            </intent-filter>
+
+        </activity>
+
+        <activity android:name=".VenmoPaymentActivity"
+            android:exported="true">
+            <meta-data android:name="android.app.lib_name"
+                android:value="" />
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="${applicationId}.braintree" />
+            </intent-filter>
+
+        </activity>
+
+        <activity android:name=".VenmoLoginActivity"
             android:exported="true">
             <meta-data android:name="android.app.lib_name"
                 android:value="" />

@@ -42,6 +42,8 @@ public class CreditCardPaymentActivity extends AppCompatActivity {
 
     private String cvv;
 
+    private String zipcode;
+
     private static final String TAG="CreditCardPaymentActivity";
 
     private BraintreeClient braintreeClient;
@@ -66,6 +68,7 @@ public class CreditCardPaymentActivity extends AppCompatActivity {
         cardNumber = intent.getStringExtra("cardNumber");
         expirationDate = intent.getStringExtra("expirationDate");
         cvv = intent.getStringExtra("cvv");
+        zipcode = intent.getStringExtra("zipcode");
 
         Log.d(TAG, "The credit card number at CreditCardPaymentActivity is "+cardNumber);
 
@@ -74,6 +77,7 @@ public class CreditCardPaymentActivity extends AppCompatActivity {
         card.setNumber(cardNumber);
         card.setCvv(cvv);
         card.setExpirationDate(expirationDate);
+        card.setPostalCode(zipcode);
 
         braintreeClient = new BraintreeClient(this, new TokenProvider());
         dataCollector = new DataCollector(braintreeClient);
@@ -150,7 +154,7 @@ public class CreditCardPaymentActivity extends AppCompatActivity {
         super.onResume();
 
         if(payment_submitted != null) {
-            handleLoading(true);
+            handleLoading(false);
         } else {
             handleLoading(false);
         }
