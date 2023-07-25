@@ -2,4 +2,7 @@
     <string name="app_name">androiddemo</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="bt_supported_card_types_description" />
+    <string name="purchase">Purchase</string>
+    <string name="invalid">Credit Card Data is Invalid! Please rectify</string>
 </resources>

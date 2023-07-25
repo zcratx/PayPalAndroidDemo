@@ -1,74 +1,118 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="220dp"
-        android:layout_marginBottom="300dp"
-        android:onClick="handlePayPalSubmit"
-        android:text="Pay Using PayPal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="16dp"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="-99dp">
+        android:layout_height="match_parent">
 
-        <EditText
-            android:id="@+id/editTextCardNumber"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Card Number"
-            android:inputType="number"/>
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/editTextExpirationDate"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Expiration Date mm/yy"
-            android:inputType="date"/>
+            <com.braintreepayments.cardform.view.AccessibleSupportedCardTypesView
+                android:id="@+id/supported_card_types"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:contentDescription="@string/bt_supported_card_types_description"
+                android:paddingTop="20dp" />
 
-        <EditText
-            android:id="@+id/editTextCVV"
-            android:layout_width="382dp"
-            android:layout_height="57dp"
-            android:hint="CVV"
-            android:inputType="number"/>
+            <com.braintreepayments.cardform.view.CardForm
+                android:id="@+id/card_form"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/bt_margin" />
 
-        <EditText
-            android:id="@+id/editTextZip"
-            android:layout_width="382dp"
-            android:layout_height="57dp"
-            android:hint="Zipcode"
-            android:inputType="number"/>
-
-        <Button
-            android:id="@+id/submitButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Pay Using Credit Card" />
-
-        <Button
-            android:id="@+id/venmobutton"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="220dp"
-            android:layout_marginBottom="280dp"
-            android:onClick="handleVenmoSubmit"
-            android:text="Pay Using Venmo" />
-
-    </LinearLayout>
+            <Button
+                android:id="@+id/card_button"
+                style="@style/PYPLTextButton"
+                android:layout_width="227dp"
+                android:layout_height="wrap_content"
+                android:paddingTop="0dp"
+                android:stateListAnimator="@anim/nav_default_enter_anim"
+                android:text="Pay Using Card"
+                app:icon="@drawable/bt_ic_card_dark" />
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+            <Space
+                android:layout_width="10dp"
+                android:layout_height="10dp" />
+
+            <Button
+                android:id="@+id/button"
+                style="@style/PYPLTextButton"
+                android:layout_width="229dp"
+                android:layout_height="wrap_content"
+                android:foreground="@drawable/pp_logo_100px"
+                android:onClick="handlePayPalSubmit"
+                android:paddingTop="0dp"
+                android:layout_weight="0.5"
+                android:stateListAnimator="@anim/nav_default_enter_anim" />
+
+            <TextView
+                style="@style/PYPLTextViewTitleStyle"
+                android:textColor="@color/bt_white"
+                android:layout_width="409dp"
+                android:layout_height="wrap_content"
+                android:paddingTop="0dp"
+                android:text="PayPal NATIVE checkout flow" />
+
+            <Space
+                android:layout_width="10dp"
+                android:layout_height="10dp" />
+
+            <Button
+                android:id="@+id/paypal_webflow_button"
+                style="@style/PYPLTextButton"
+                android:layout_width="229dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:foreground="@drawable/pp_logo_100px"
+                android:onClick="handlePayPalWebFlowSubmit"
+                android:paddingTop="0dp"
+                android:stateListAnimator="@anim/nav_default_enter_anim" />
+
+            <TextView
+                style="@style/PYPLTextViewTitleStyle"
+                android:textColor="@color/bt_white"
+                android:layout_width="409dp"
+                android:layout_height="wrap_content"
+                android:text="PayPal NON NATIVE checkout flow" />
+
+
+            <Space
+                android:layout_width="10dp"
+                android:layout_height="10dp" />
+
+            <Button
+                android:id="@+id/venmobutton"
+                style="@style/PYPLTextButton"
+                android:layout_width="233dp"
+                android:layout_height="wrap_content"
+                android:background="#C5CBCD"
+                android:backgroundTintMode="src_over"
+                android:foreground="@drawable/blue_venmo_button_375x48"
+                android:onClick="handleVenmoSubmit"
+                android:src="@drawable/white_venmo_acceptance_mark_30x20"
+                android:stateListAnimator="@anim/nav_default_enter_anim"
+                android:text="Pay Using Venmo"
+                android:visibility="visible"
+                app:icon="@drawable/blue_venmo_acceptance_mark_30x20"
+                app:iconTint="@color/teal_200" />
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>
+
 

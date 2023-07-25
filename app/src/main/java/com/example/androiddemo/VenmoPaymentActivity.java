@@ -80,66 +80,9 @@ public class VenmoPaymentActivity extends AppCompatActivity implements VenmoList
 
             // This for now is commented as I do not have a compatible phone to install Venmo
             venmoClient.showVenmoInGooglePlayStore(this);
-
-
-            // open the web login of Venmo
-//            String venmoWebLoginUrl = "https://venmo.com/web/login";
-//
-//            Intent tempIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(venmoWebLoginUrl));
-//            startActivity(intent);
-
-            //Intent venmoFragmentIntent = new Intent(this, VenmoLoginFragment.class);
-            //startActivity(venmoFragmentIntent);
-
-            // marked the user has logged in through the web
-
-            //TODO: Code to Navigate to App Store
-
-//            String venmoPackageName = "com.venmo"; // Package name of Venmo app
-//
-//            try {
-//                // Try opening the Venmo app in the Play Store using the package name
-//                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + venmoPackageName)));
-//            } catch (ActivityNotFoundException e) {
-//                // If the Play Store app is not installed, open Venmo's Play Store page in a browser
-//                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=" + venmoPackageName)));
-//            }
-
-
-            //TODO: Code to pop up Venmo login page. However, can't get a handle when the activity will be done
-//            try {
-//
-//                // Try opening the Venmo app in the Play Store using the package name
-//                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://id.venmo.com/signin?country.x=US&locale.x=en&ctxId=AAF9_vHvBE4kXAWD6rnoZs2owQqMJN84dXhTEB16YREUF-bKxbk8vvwFo9xidvtoarb0owmfhLmfx4n7ObAIKJI=#/lgn")));
-//            } catch (ActivityNotFoundException e) {
-//                // If the Play Store app is not installed, open Venmo's Play Store page in a browser
-//                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://venmo.com/go/checkout?")));
-//            }
-
-            //TODO: Attempt to get a handle on the activity
-//            Intent venmoLoginIntent = new Intent(this, VenmoLoginActivity.class);
-//            startActivityForResult(venmoLoginIntent, VENMO_URL_INVOKING_REQUEST_CODE);
-
-//            Intent venmoIntent = new Intent(VenmoPaymentActivity.this, VenmoWebViewActivity.class);
-//            String venmo_uri = VenmoLibrary.openVenmoPaymentInWebView(APP_ID, APP_NAME, recipient, amount, note, txn);
-//            venmoIntent.putExtra("url", venmo_uri);
-//            startActivityForResult(venmoIntent, VENMO_URL_INVOKING_REQUEST_CODE);
         }
     }
 
-//    @Override
-//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//
-//        if (requestCode == VENMO_URL_INVOKING_REQUEST_CODE) {
-//            if (resultCode == RESULT_OK) {
-//                userLoginThroughWeb = true;
-//
-//            } else {
-//                Toast.makeText(VenmoPaymentActivity.this,"Could not log into Venmo. Ending the process!", Toast.LENGTH_LONG).show();
-//            }
-//        }
-//    }
 
 
     private void tokenizeVenmoAccount() {
@@ -151,9 +94,6 @@ public class VenmoPaymentActivity extends AppCompatActivity implements VenmoList
         request.setDisplayName("Zcratx Store");
         request.setCollectCustomerBillingAddress(false);
         request.setCollectCustomerShippingAddress(false);
-
-
-        //request.describeContents();
 
         venmoClient.tokenizeVenmoAccount(this, request);
         tokenizationDone = true;

@@ -16,6 +16,11 @@ import com.braintreepayments.api.PayPalAccountNonce;
 import com.braintreepayments.api.PayPalCheckoutRequest;
 import com.braintreepayments.api.PayPalClient;
 import com.braintreepayments.api.PayPalListener;
+import com.braintreepayments.api.PayPalNativeCheckoutAccountNonce;
+import com.braintreepayments.api.PayPalNativeCheckoutClient;
+import com.braintreepayments.api.PayPalNativeCheckoutListener;
+import com.braintreepayments.api.PayPalNativeCheckoutPaymentIntent;
+import com.braintreepayments.api.PayPalNativeCheckoutRequest;
 
 import java.util.Random;
 
@@ -25,7 +30,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class PayPalPaymentActivity extends AppCompatActivity implements PayPalListener {
+public class PayPalPaymentActivity extends AppCompatActivity implements PayPalNativeCheckoutListener {
 
     private ProgressBar progressBar;
     private String payment_submitted;
@@ -35,7 +40,9 @@ public class PayPalPaymentActivity extends AppCompatActivity implements PayPalLi
     private static final String CURRENCY = "USD";
 
     private BraintreeClient braintreeClient;
-    private PayPalClient payPalClient;
+    //private PayPalClient payPalClient;
+
+    private PayPalNativeCheckoutClient payPalNativeCheckoutClient;
     private DataCollector dataCollector;
 
     @Override
@@ -49,8 +56,8 @@ public class PayPalPaymentActivity extends AppCompatActivity implements PayPalLi
         Intent intent = getIntent();
         payment_submitted = intent.getStringExtra("payment_submitted");
         braintreeClient = new BraintreeClient(this, new TokenProvider());
-        payPalClient = new PayPalClient(this, braintreeClient);
-        payPalClient.setListener(this);
+        payPalNativeCheckoutClient = new PayPalNativeCheckoutClient(braintreeClient);
+        payPalNativeCheckoutClient.setListener(this);
 
         dataCollector = new DataCollector(braintreeClient);
     }
@@ -67,9 +74,14 @@ public class PayPalPaymentActivity extends AppCompatActivity implements PayPalLi
     }
 
     private void createPayment() {
-        PayPalCheckoutRequest request = new PayPalCheckoutRequest(AMOUNT);
+        PayPalNativeCheckoutRequest request = new PayPalNativeCheckoutRequest(AMOUNT);
         request.setCurrencyCode(CURRENCY);
-        payPalClient.tokenizePayPalAccount(this, request);
+        request.setReturnUrl("com.example.androiddemo://paypalpay");
+        request.setDisplayName("Braintree Native SDK Demo");
+        request.setShouldOfferPayLater(true);
+        request.setBillingAgreementDescription("Placeholder for client end billing agreement description");
+        request.setIntent(PayPalNativeCheckoutPaymentIntent.SALE);
+        payPalNativeCheckoutClient.launchNativeCheckout(this, request);
     }
 
     private void handleLoading(boolean isDone) {
@@ -81,7 +93,7 @@ public class PayPalPaymentActivity extends AppCompatActivity implements PayPalLi
     }
 
     @Override
-    public void onPayPalSuccess(@NonNull PayPalAccountNonce payPalAccountNonce) {
+    public void onPayPalSuccess(@NonNull PayPalNativeCheckoutAccountNonce payPalAccountNonce) {
         String nonce = payPalAccountNonce.getString();
         Log.d("ONPAYPALSUCCESS", "The nonce is  "+nonce);
 

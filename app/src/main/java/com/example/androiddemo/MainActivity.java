@@ -2,111 +2,115 @@ package com.example.androiddemo;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.braintreepayments.cardform.utils.CardType;
+import com.braintreepayments.cardform.view.AccessibleSupportedCardTypesView;
+import com.braintreepayments.cardform.view.CardForm;
 import com.example.androiddemo.util.CreditCardValidator;
 
 public class MainActivity extends AppCompatActivity {
 
-    private EditText cardNumberEditText;
-    private EditText expirationDateEditText;
-    private EditText cvvEditText;
-    private EditText zipcodeEditText;
 
-    private Button submitButton;
+    // this is for PayPal Native Checkout flow
     private Button btnSubmit;
+
+    // this is for PayPal webflow checkout flow
+    private Button btnWebCheckoutSubmit;
+
+    private Button btnCardSubmit;
 
     private static final String TAG = "MainActivity";
 
+//    private static final CardType[] SUPPORTED_CARD_TYPES = { CardType.VISA, CardType.MASTERCARD, CardType.DISCOVER,
+//            CardType.AMEX, CardType.DINERS_CLUB, CardType.JCB, CardType.MAESTRO, CardType.UNIONPAY,
+//            CardType.HIPER, CardType.HIPERCARD };
 
+    private static final CardType[] SUPPORTED_CARD_TYPES = { CardType.VISA, CardType.MASTERCARD, CardType.DISCOVER,
+            CardType.AMEX, CardType.DINERS_CLUB, CardType.JCB, CardType.MAESTRO, CardType.UNIONPAY,
+            CardType.HIPER, CardType.HIPERCARD };
+
+    private AccessibleSupportedCardTypesView mSupportedCardTypesView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // this is for Credit Card
-        cardNumberEditText = findViewById(R.id.editTextCardNumber);
-        expirationDateEditText = findViewById(R.id.editTextExpirationDate);
-        cvvEditText = findViewById(R.id.editTextCVV);
-        zipcodeEditText = findViewById(R.id.editTextZip);
-        submitButton = findViewById(R.id.submitButton);
+        mSupportedCardTypesView = findViewById(R.id.supported_card_types);
+        mSupportedCardTypesView.setSupportedCardTypes(SUPPORTED_CARD_TYPES);
 
-        // this is for PayPal
+
+
+        CardForm cardForm = (CardForm) findViewById(R.id.card_form);
+        cardForm.cardRequired(true)
+                .maskCardNumber(true)
+                .maskCvv(true)
+                .expirationRequired(true)
+                .cvvRequired(true)
+                .postalCodeRequired(true)
+                //.mobileNumberRequired(true)
+                //.saveCardCheckBoxChecked(true)
+                //.saveCardCheckBoxVisible(true)
+                .cardholderName(CardForm.FIELD_REQUIRED)
+                //.mobileNumberExplanation("Make sure SMS is enabled for this mobile number")
+                //.actionLabel(getString(R.string.purchase))
+                .setup(this);
+
+        btnCardSubmit = findViewById(R.id.card_button);
+
+        // this is for PayPal native checkout flow
         btnSubmit = findViewById(R.id.button);
 
-        submitButton.setOnClickListener(new View.OnClickListener() {
+        // this is for PayPal web flow checkout flow
+        btnWebCheckoutSubmit = findViewById(R.id.paypal_webflow_button);
+
+        cardForm.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                cardForm.validate();
+                return;
+            }
+        });
+
+        btnCardSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Handle submit button click event
-                String cardNumber = cardNumberEditText.getText().toString();
+                if (cardForm.isValid()) {
+                    String cardNumber = cardForm.getCardNumber();
+                    String expirationMonth = cardForm.getExpirationMonth();
+                    String expirationYear = cardForm.getExpirationYear();
+                    String cvv = cardForm.getCvv();
+                    String cardHolderName = cardForm.getCardholderName();
+                    String zipcode  = cardForm.getPostalCode();
+                    String countryCode = cardForm.getCountryCode();
+                    //String customerMobileNumber = cardForm.getMobileNumber();
 
-                //validate the cardnumber and make sure it is correct, else throw an error
-                if(!CreditCardValidator.isValidCardNumber(cardNumber)) {
-                    Toast.makeText(MainActivity.this,"Please input a valid credit card number", Toast.LENGTH_LONG).show();
+                    String expirationDate = expirationMonth+"/"+expirationYear;
 
-                    return;
-                }
+                    // call payment activity and call the server
+                    // (e.g., validation, API calls, etc.)
+                    Intent creditCardPaymentIntent = new Intent(MainActivity.this, CreditCardPaymentActivity.class);
+                    creditCardPaymentIntent.putExtra("payment_submitted", "payment");
+                    creditCardPaymentIntent.putExtra("cardNumber", cardNumber);
+                    creditCardPaymentIntent.putExtra("expirationDate", expirationDate);
+                    creditCardPaymentIntent.putExtra("cvv", cvv);
+                    creditCardPaymentIntent.putExtra("zipcode", zipcode);
+                    startActivity(creditCardPaymentIntent);
 
-                String expirationDate = expirationDateEditText.getText().toString();
-
-                if(!expirationDate.contains("/")) {
-                    Toast.makeText(MainActivity.this,"Date has to be in mm/dd format", Toast.LENGTH_LONG).show();
-
-                    return;
-                }
-
-                String expirationMonth = expirationDate.substring(0,expirationDate.lastIndexOf("/"));
-                String expirationYear = expirationDate.substring(expirationDate.lastIndexOf("/")+1);
-
-                try {
-                    int expirationMonthInt = Integer.parseInt(expirationMonth);
-                    int expirationYearInt = Integer.parseInt(expirationYear);
-
-                    if (!CreditCardValidator.checkExpirationDate(expirationMonthInt, expirationYearInt)) {
-
-                        Toast.makeText(MainActivity.this,"Date has to be a valid date", Toast.LENGTH_LONG).show();
-
-                        return;
-                    }
-                } catch(Exception e ) {
-                    Toast.makeText(MainActivity.this,"Date has to be in mm/yy format", Toast.LENGTH_LONG).show();
-
+                } else {
+                    cardForm.validate();
                     return;
                 }
 
 
-                String cvv = cvvEditText.getText().toString();
-
-                if(!CreditCardValidator.checkCVV(cvv)) {
-                    Toast.makeText(MainActivity.this,"CVV has to be valid", Toast.LENGTH_LONG).show();
-
-                    return;
-                }
-
-                String zipcode = zipcodeEditText.getText().toString();
-
-                if(zipcode.length() != 5) {
-                    Toast.makeText(MainActivity.this,"Input a valid zipcode", Toast.LENGTH_LONG).show();
-
-                    return;
-                }
-
-                // call payment activity and call the server
-                // (e.g., validation, API calls, etc.)
-                Intent creditCardPaymentIntent = new Intent(MainActivity.this, CreditCardPaymentActivity.class);
-                creditCardPaymentIntent.putExtra("payment_submitted", "payment");
-                creditCardPaymentIntent.putExtra("cardNumber", cardNumber);
-                creditCardPaymentIntent.putExtra("expirationDate", expirationDate);
-                creditCardPaymentIntent.putExtra("cvv", cvv);
-                creditCardPaymentIntent.putExtra("zipcode", zipcode);
-                startActivity(creditCardPaymentIntent);
             }
         });
     }
@@ -124,6 +128,12 @@ public class MainActivity extends AppCompatActivity {
         Intent venmoPaymentIntent = new Intent(this, VenmoPaymentActivity.class);
         venmoPaymentIntent.putExtra("payment_submitted", "payment");
         startActivity(venmoPaymentIntent);
+    }
+
+    public void handlePayPalWebFlowSubmit(View view) {
+        Intent paymentIntent = new Intent(this, PayPalWebFlowPaymentActivity.class);
+        paymentIntent.putExtra("payment_submitted", "payment");
+        startActivity(paymentIntent);
     }
 
 }
