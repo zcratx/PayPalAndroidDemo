@@ -40,7 +40,7 @@ public class PayPalPaymentActivity extends AppCompatActivity implements PayPalNa
     private static final String CURRENCY = "USD";
 
     private BraintreeClient braintreeClient;
-
+   
 
     private PayPalNativeCheckoutClient payPalNativeCheckoutClient;
     private DataCollector dataCollector;
@@ -119,7 +119,7 @@ public class PayPalPaymentActivity extends AppCompatActivity implements PayPalNa
                        .addFormDataPart("orderId", orderId)
                        .build();
 
-
+ 
                Call<PaymentReceipt> call = new HttpRequest().checkout().payment(requestBody);
 
                call.enqueue(new Callback<PaymentReceipt>() {

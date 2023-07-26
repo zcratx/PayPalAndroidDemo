@@ -28,15 +28,12 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
 
-//    private static final CardType[] SUPPORTED_CARD_TYPES = { CardType.VISA, CardType.MASTERCARD, CardType.DISCOVER,
-//            CardType.AMEX, CardType.DINERS_CLUB, CardType.JCB, CardType.MAESTRO, CardType.UNIONPAY,
-//            CardType.HIPER, CardType.HIPERCARD };
-
     private static final CardType[] SUPPORTED_CARD_TYPES = { CardType.VISA, CardType.MASTERCARD, CardType.DISCOVER,
             CardType.AMEX, CardType.DINERS_CLUB, CardType.JCB, CardType.MAESTRO, CardType.UNIONPAY,
             CardType.HIPER, CardType.HIPERCARD };
 
     private AccessibleSupportedCardTypesView mSupportedCardTypesView;
+  
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
