@@ -39,6 +39,8 @@ public class PayPalWebFlowPaymentActivity extends AppCompatActivity implements P
     private PayPalClient payPalClient;
     private DataCollector dataCollector;
 
+    private boolean isCheckoutInitiated = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,7 +62,7 @@ public class PayPalWebFlowPaymentActivity extends AppCompatActivity implements P
     protected void onResume() {
         super.onResume();
 
-        if(payment_submitted != null) {
+        if(payment_submitted != null && !isCheckoutInitiated) {
             createPayment();
         } else {
             handleLoading(false);
@@ -70,6 +72,7 @@ public class PayPalWebFlowPaymentActivity extends AppCompatActivity implements P
     private void createPayment() {
         PayPalCheckoutRequest request = new PayPalCheckoutRequest(AMOUNT);
         request.setCurrencyCode(CURRENCY);
+        isCheckoutInitiated = true;
         payPalClient.tokenizePayPalAccount(this, request);
     }
 

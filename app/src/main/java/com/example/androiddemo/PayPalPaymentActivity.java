@@ -45,6 +45,8 @@ public class PayPalPaymentActivity extends AppCompatActivity implements PayPalNa
     private PayPalNativeCheckoutClient payPalNativeCheckoutClient;
     private DataCollector dataCollector;
 
+    private boolean isNativeCheckoutInitiated = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,7 +68,7 @@ public class PayPalPaymentActivity extends AppCompatActivity implements PayPalNa
     protected void onResume() {
         super.onResume();
 
-        if(payment_submitted != null) {
+        if(payment_submitted != null && !isNativeCheckoutInitiated) {
             createPayment();
         } else {
             handleLoading(false);
@@ -81,6 +83,8 @@ public class PayPalPaymentActivity extends AppCompatActivity implements PayPalNa
         request.setShouldOfferPayLater(true);
         request.setBillingAgreementDescription("Placeholder for client end billing agreement description");
         request.setIntent(PayPalNativeCheckoutPaymentIntent.SALE);
+        // mark the native checkout flow has been initiated
+        isNativeCheckoutInitiated = true;
         payPalNativeCheckoutClient.launchNativeCheckout(this, request);
     }
 

@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
         btnSubmit = findViewById(R.id.button);
 
         // this is for PayPal web flow checkout flow
-        btnWebCheckoutSubmit = findViewById(R.id.paypal_webflow_button);
+        //btnWebCheckoutSubmit = findViewById(R.id.paypal_webflow_button);
 
         cardForm.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -130,10 +130,10 @@ public class MainActivity extends AppCompatActivity {
         startActivity(venmoPaymentIntent);
     }
 
-    public void handlePayPalWebFlowSubmit(View view) {
-        Intent paymentIntent = new Intent(this, PayPalWebFlowPaymentActivity.class);
-        paymentIntent.putExtra("payment_submitted", "payment");
-        startActivity(paymentIntent);
-    }
+//    public void handlePayPalWebFlowSubmit(View view) {
+//        Intent paymentIntent = new Intent(this, PayPalWebFlowPaymentActivity.class);
+//        paymentIntent.putExtra("payment_submitted", "payment");
+//        startActivity(paymentIntent);
+//    }
 
 }

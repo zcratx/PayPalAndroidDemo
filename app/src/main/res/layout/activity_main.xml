@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -32,70 +33,48 @@
 
             <Button
                 android:id="@+id/card_button"
-                style="@style/PYPLTextButton"
-                android:layout_width="227dp"
+                style="@style/Widget.AppCompat.Button"
+                android:layout_width="259dp"
                 android:layout_height="wrap_content"
-                android:paddingTop="0dp"
+                android:paddingLeft="0dp"
                 android:stateListAnimator="@anim/nav_default_enter_anim"
                 android:text="Pay Using Card"
-                app:icon="@drawable/bt_ic_card_dark" />
+                app:icon="@drawable/bt_ic_card_dark"
+                android:layout_gravity="center" />
 
 
 
             <Space
                 android:layout_width="10dp"
-                android:layout_height="10dp" />
+                android:layout_height="40dp" />
+
+
 
             <Button
                 android:id="@+id/button"
                 style="@style/PYPLTextButton"
-                android:layout_width="229dp"
+                android:layout_width="259dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:foreground="@drawable/pp_logo_100px"
                 android:onClick="handlePayPalSubmit"
                 android:paddingTop="0dp"
-                android:layout_weight="0.5"
-                android:stateListAnimator="@anim/nav_default_enter_anim" />
-
-            <TextView
-                style="@style/PYPLTextViewTitleStyle"
-                android:textColor="@color/bt_white"
-                android:layout_width="409dp"
-                android:layout_height="wrap_content"
-                android:paddingTop="0dp"
-                android:text="PayPal NATIVE checkout flow" />
+                android:stateListAnimator="@anim/nav_default_enter_anim"
+                android:tooltipText="Native Checkout" />
 
             <Space
-                android:layout_width="10dp"
+                android:layout_width="80dp"
                 android:layout_height="10dp" />
-
-            <Button
-                android:id="@+id/paypal_webflow_button"
-                style="@style/PYPLTextButton"
-                android:layout_width="229dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:foreground="@drawable/pp_logo_100px"
-                android:onClick="handlePayPalWebFlowSubmit"
-                android:paddingTop="0dp"
-                android:stateListAnimator="@anim/nav_default_enter_anim" />
-
-            <TextView
-                style="@style/PYPLTextViewTitleStyle"
-                android:textColor="@color/bt_white"
-                android:layout_width="409dp"
-                android:layout_height="wrap_content"
-                android:text="PayPal NON NATIVE checkout flow" />
 
 
             <Space
                 android:layout_width="10dp"
-                android:layout_height="10dp" />
+                android:layout_height="40dp" />
 
             <Button
                 android:id="@+id/venmobutton"
                 style="@style/PYPLTextButton"
-                android:layout_width="233dp"
+                android:layout_width="259dp"
                 android:layout_height="wrap_content"
                 android:background="#C5CBCD"
                 android:backgroundTintMode="src_over"
@@ -107,7 +86,6 @@
                 android:visibility="visible"
                 app:icon="@drawable/blue_venmo_acceptance_mark_30x20"
                 app:iconTint="@color/teal_200" />
-
 
         </LinearLayout>
 
